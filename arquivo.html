@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Um convite</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f3eee8;
+            font-family: Georgia, serif;
+        }
+
+        .carta {
+            position: relative;
+            width: 90%;
+            max-width: 600px;
+            min-height: 430px;
+            padding: 55px 40px;
+            background: #fffdf9;
+            border: 3px solid #8b0000;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+
+        .carta::before {
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px solid #c77;
+            pointer-events: none;
+        }
+
+        h1 {
+            color: #8b0000;
+            font-size: 28px;
+            margin-bottom: 35px;
+        }
+
+        p {
+            font-size: 20px;
+            line-height: 1.7;
+            color: #222;
+            margin: 15px 0;
+        }
+
+        .botoes {
+            position: relative;
+            width: 100%;
+            height: 100px;
+            margin-top: 30px;
+        }
+
+        button {
+            font-family: Georgia, serif;
+            font-size: 17px;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        #sim {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-110%, -50%);
+            background: #8b0000;
+            color: white;
+            border: 2px solid #8b0000;
+        }
+
+        #nao {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(10%, -50%);
+            background: transparent;
+            color: #555;
+            border: 2px solid #999;
+        }
+
+        #mensagemFinal {
+            display: none;
+        }
+
+        #mensagemFinal h1 {
+            margin-top: 40px;
+        }
+
+        .dias {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .dia {
+            background: #8b0000;
+            color: white;
+            border: 2px solid #8b0000;
+        }
+
+        .dia:hover {
+            background: #a50000;
+        }
+
+        #confirmacao {
+            display: none;
+            margin-top: 25px;
+            color: #8b0000;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- PRIMEIRA CARTA -->
+    <div class="carta" id="convite">
+
+        <h1>Um convite para você</h1>
+
+        <p>
+            Sei que sua prioridade é o trabalho,
+            mas a minha é te ver.
+        </p>
+
+        <p>
+            Prometo não atrapalhar muito.
+        </p>
+
+        <p>
+            Aceita minha companhia?
+        </p>
+
+        <div class="botoes">
+            <button id="sim">SIM</button>
+            <button id="nao">NÃO</button>
+        </div>
+
+    </div>
+
+
+    <!-- SEGUNDA CARTA -->
+    <div class="carta" id="mensagemFinal">
+
+        <h1>Sabia que você ia aceitar ❤️</h1>
+
+        <p>
+            Agora você escolhe o dia.
+        </p>
+
+        <div class="dias">
+
+            <button class="dia" onclick="escolherDia('Quinta')">
+                Quinta
+            </button>
+
+            <button class="dia" onclick="escolherDia('Sexta')">
+                Sexta
+            </button>
+
+            <button class="dia" onclick="escolherDia('Sábado')">
+                Sábado
+            </button>
+
+            <button class="dia" onclick="escolherDia('Domingo')">
+                Domingo
+            </button>
+
+        </div>
+
+        <div id="confirmacao"></div>
+
+    </div>
+
+
+    <script>
+
+        const botaoNao = document.getElementById("nao");
+        const botaoSim = document.getElementById("sim");
+
+        const areaBotoes = document.querySelector(".botoes");
+
+        const convite = document.getElementById("convite");
+        const mensagemFinal = document.getElementById("mensagemFinal");
+
+        const confirmacao = document.getElementById("confirmacao");
+
+
+        // Faz o botão NÃO fugir
+        function fugir() {
+
+            const largura = areaBotoes.clientWidth;
+            const altura = areaBotoes.clientHeight;
+
+            const larguraBotao = botaoNao.offsetWidth;
+            const alturaBotao = botaoNao.offsetHeight;
+
+            const novoX = Math.random() * (largura - larguraBotao);
+            const novoY = Math.random() * (altura - alturaBotao);
+
+            botaoNao.style.left = novoX + "px";
+            botaoNao.style.top = novoY + "px";
+
+            botaoNao.style.transform = "none";
+        }
+
+
+        // Mouse
+        botaoNao.addEventListener("mouseenter", fugir);
+
+
+        // Celular
+        botaoNao.addEventListener("touchstart", function(event) {
+
+            event.preventDefault();
+
+            fugir();
+
+        });
+
+
+        // Quando clicar SIM
+        botaoSim.addEventListener("click", function() {
+
+            convite.style.display = "none";
+
+            mensagemFinal.style.display = "block";
+
+        });
+
+
+        // Escolha do dia
+        function escolherDia(dia) {
+
+            confirmacao.style.display = "block";
+
+            confirmacao.innerHTML =
+                "Então fechou: " + dia + " ❤️";
+
+        }
+
+    </script>
+
+</body>
+</html>
